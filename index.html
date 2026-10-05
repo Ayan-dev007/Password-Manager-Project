@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Password Manager</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="app">
+    <h1>Password Manager</h1>
+
+    <div class="form">
+      <input type="text" id="website" placeholder="Website">
+      <input type="text" id="username" placeholder="Username">
+
+      <div class="pass-row">
+        <input type="text" id="password" placeholder="Password">
+        <button id="genBtn" title="Generate password">Generate</button>
+      </div>
+
+      <button id="addBtn">Add Password</button>
+    </div>
+
+    <div class="search-row">
+      <input type="text" id="searchInput" placeholder="Search by website...">
+    </div>
+
+    <p id="emptyMsg" class="empty-msg">No passwords saved</p>
+
+    <ul id="passList"></ul>
+  </div>
+
+<script>
+  const STORAGE_KEY = "data";
+
+  function loadData(){
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : [];
+  }
+
+  function saveData(data){
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  }
+
+  let data = loadData();
+
+  const websiteInput = document.getElementById("website");
+  const usernameInput = document.getElementById("username");
+  const passwordInput = document.getElementById("password");
+  const genBtn = document.getElementById("genBtn");
+  const addBtn = document.getElementById("addBtn");
+  const searchInput = document.getElementById("searchInput");
+  const passList = document.getElementById("passList");
+  const emptyMsg = document.getElementById("emptyMsg");
+
+  function generatePassword(len = 8){
+    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()-_=+";
+    let pass = "";
+    for(let i = 0; i < len; i++){
+      pass += chars[Math.floor(Math.random() * chars.length)];
+    }
+    return pass;
+  }
+
+  function renderList(filter = ""){
+    passList.innerHTML = "";
+
+    const items = filter
+      ? data.filter(item => item.website.toLowerCase().includes(filter.toLowerCase()))
+      : data;
+
+    if(data.length === 0){
+      emptyMsg.textContent = "No passwords saved";
+      emptyMsg.style.display = "block";
+      return;
+    }
+
+    if(items.length === 0){
+      emptyMsg.textContent = "Website not found";
+      emptyMsg.style.display = "block";
+      return;
+    }
+
+    emptyMsg.style.display = "none";
+
+    items.forEach((item) => {
+      const realIndex = data.indexOf(item);
+
+      const li = document.createElement("li");
+
+      li.innerHTML = `
+        <div class="entry-header">
+          <span class="site">${escapeHtml(item.website)}</span>
+          <button class="del-btn">Delete</button>
+        </div>
+        <div class="entry-row"><span class="label">User:</span> ${escapeHtml(item.username)}</div>
+        <div class="entry-row">
+          <span class="label">Pass:</span>
+          <span class="pass-text" data-visible="false">••••••••</span>
+          <button class="toggle-btn">Show</button>
+        </div>
+      `;
+
+      li.querySelector(".del-btn").onclick = () => deleteEntry(realIndex);
+
+      const passSpan = li.querySelector(".pass-text");
+      const toggleBtn = li.querySelector(".toggle-btn");
+      toggleBtn.onclick = () => {
+        const visible = passSpan.dataset.visible === "true";
+        passSpan.textContent = visible ? "••••••••" : item.password;
+        passSpan.dataset.visible = (!visible).toString();
+        toggleBtn.textContent = visible ? "Show" : "Hide";
+      };
+
+      passList.appendChild(li);
+    });
+  }
+
+  function escapeHtml(str){
+    const div = document.createElement("div");
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  function addEntry(){
+    const website = websiteInput.value.trim();
+    const username = usernameInput.value.trim();
+    const password = passwordInput.value.trim();
+
+    if(!website || !username || !password){
+      alert("Please fill in website, username and password");
+      return;
+    }
+
+    data.push({ website, username, password });
+    saveData(data);
+
+    websiteInput.value = "";
+    usernameInput.value = "";
+    passwordInput.value = "";
+
+    renderList(searchInput.value);
+  }
+
+  function deleteEntry(index){
+    data.splice(index, 1);
+    saveData(data);
+    renderList(searchInput.value);
+  }
+
+  genBtn.addEventListener("click", () => {
+    passwordInput.value = generatePassword();
+  });
+
+  addBtn.addEventListener("click", addEntry);
+
+  searchInput.addEventListener("input", () => {
+    renderList(searchInput.value);
+  });
+
+  renderList();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,175 @@
+*{
+  box-sizing: border-box;
+}
+
+body{
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 50px 16px;
+  background: #eef1f5;
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+.app{
+  background: #ffffff;
+  width: 400px;
+  max-width: 100%;
+  padding: 28px;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+}
+
+h1{
+  margin: 0 0 20px;
+  font-size: 22px;
+  color: #222;
+  text-align: center;
+}
+
+.form{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #eef0f3;
+}
+
+input{
+  padding: 10px 12px;
+  font-size: 14px;
+  border: 1px solid #d5d9e0;
+  border-radius: 6px;
+  outline: none;
+  width: 100%;
+}
+
+input:focus{
+  border-color: #4a7dfc;
+}
+
+.pass-row{
+  display: flex;
+  gap: 8px;
+}
+
+.pass-row input{
+  flex: 1;
+}
+
+#genBtn{
+  padding: 10px 12px;
+  font-size: 13px;
+  background: #eef2ff;
+  color: #4a7dfc;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+#genBtn:hover{
+  background: #dde6ff;
+}
+
+#addBtn{
+  padding: 10px 16px;
+  font-size: 14px;
+  background: #4a7dfc;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+#addBtn:hover{
+  background: #3a6ae0;
+}
+
+.search-row{
+  margin-bottom: 16px;
+}
+
+.empty-msg{
+  text-align: center;
+  color: #9a9fa8;
+  font-size: 14px;
+  padding: 20px 0;
+}
+
+ul{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+li{
+  border: 1px solid #eef0f3;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 10px;
+}
+
+.entry-header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.site{
+  font-size: 15px;
+  font-weight: 600;
+  color: #2a2a2a;
+  word-break: break-word;
+}
+
+.del-btn{
+  padding: 5px 10px;
+  font-size: 12px;
+  background: #ffe4e4;
+  color: #d33636;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.del-btn:hover{
+  background: #ffcfcf;
+}
+
+.entry-row{
+  font-size: 13px;
+  color: #555;
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.label{
+  color: #9a9fa8;
+}
+
+.pass-text{
+  font-family: 'Consolas', monospace;
+  letter-spacing: 1px;
+}
+
+.toggle-btn{
+  margin-left: auto;
+  padding: 4px 8px;
+  font-size: 11px;
+  background: #f2f3f5;
+  color: #555;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.toggle-btn:hover{
+  background: #e5e7eb;
+}
